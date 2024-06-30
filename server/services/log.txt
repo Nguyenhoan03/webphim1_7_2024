@@ -1,0 +1,6 @@
+Error in phimhot service: ReferenceError: cache is not defined
+Error in phimhot service: ReferenceError: cache is not defined
+Error in phimhot service: ReferenceError: cache is not defined
+Error in phimhot service: ReferenceError: cache is not defined
+Error in phimhot service: TypeError: cache.set is not a function
+Error in phimhot service: TypeError: cache.set is not a function
