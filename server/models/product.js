@@ -10,9 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Product.hasMany(models.Linkfilm, {
+        foreignKey: 'title', // This is the title field in Linkfilm table
+        sourceKey: 'title', // This is the title field in Product table
+        as: 'linkfilms'
+      });
     }
   }
+  
   Product.init({
     title: DataTypes.TEXT,
     hinhanh: DataTypes.TEXT,

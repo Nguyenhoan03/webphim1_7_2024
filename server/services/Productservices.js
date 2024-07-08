@@ -1,4 +1,4 @@
-const { Product } = require('../models');
+const { Product , Linkfilm} = require('../models');
 const { Op, where } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
@@ -157,7 +157,12 @@ const detailfilm = async (titlefilm) => {
     const datafilm = await Product.findOne({
       where: {
         title: titlefilm
-      }
+      },
+      include: [{
+        model: Linkfilm,
+        as: 'linkfilms', 
+        attributes: [ 'episode',]
+      }]
     });
     return datafilm;
   } catch (error) {
@@ -166,5 +171,56 @@ const detailfilm = async (titlefilm) => {
   }
 };
 
+//phim bộ
+const danhmucphim = async (category_id, filters = {}) => {
+  
+  try {
+    const { orderBy, category, country, typeId, year } = filters;
+    const where = { category_id };
 
-module.exports = { home, getProductByCategory,detailfilm };
+    // Build dynamic conditions based on filters
+    if (category) {
+      where.theloai = { [Op.like]: `%${category}%` };
+    }
+    if (country) {
+      where.quocgia = { [Op.like]: `%${country}%` };
+    }
+    if (typeId) {
+      where.typeId = typeId;
+    }
+    if (year) {
+      where.namphathanh = year;
+    }
+
+    let orderClause = [];
+    if (orderBy == "createdAt") {
+      orderClause = [['createdAt', 'DESC']];
+    } else if (orderBy == "views") {
+      orderClause = [['views', 'DESC']];
+    } else if (orderBy == "year") {
+      orderClause = [['year', 'ASC']];
+    }
+
+    const data = await Product.findAll({
+      where,
+      order: orderClause.length > 0 ? orderClause : undefined,
+    });
+
+    return data;
+  } catch (error) {
+    console.error('Error while fetching film detail:', error);
+    throw error;
+  }
+};
+
+
+module.exports = {
+  danhmucphim,
+};
+
+
+
+
+
+
+module.exports = { home, getProductByCategory,detailfilm,danhmucphim};
