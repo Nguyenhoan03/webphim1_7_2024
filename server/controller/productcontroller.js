@@ -52,9 +52,9 @@ const Product_Detailphim = async (req, res) => {
 const handledanhmucphim = async (req, res, categoryId) => {
   try {
     const filters = req.query;
-    console.log("Received filters:", filters); // Log received filters
+    console.log("Received filters:", filters);
     const data = await Productservices.danhmucphim(categoryId, filters);
-    res.status(200).json(data); // Send response once data is retrieved
+    res.status(200).json(data);
   } catch (error) {
     console.error('Error while fetching film detail:', error);
     res.status(500).json({ message: 'Lỗi khi lấy thông tin phim' });
