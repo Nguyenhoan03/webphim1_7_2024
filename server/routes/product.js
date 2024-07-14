@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controller/productcontroller');
 const XemphimController = require('../controller/Xemphimcontroller')
-
+const {verifyToken} = require('../middleware/Authmiddlware')
+router.post('/comment',verifyToken, productController.Product_comment);
 router.get('/product-home', productController.Product_home);
 router.get('/product-phimbo', productController.Product_phimbo);
 router.get('/product-phimle', productController.Product_phimle);

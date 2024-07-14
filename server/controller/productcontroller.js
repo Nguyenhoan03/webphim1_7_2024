@@ -92,9 +92,20 @@ const Product_danhmucphimhocduong = async (req, res) => handledanhmucphim(req, r
 const Product_danhmucphimvothuat = async (req, res) => handledanhmucphim(req, res, 18);
 const Product_danhmucphimchinhkich = async (req, res) => handledanhmucphim(req, res, 21);
 
+const Product_comment = async (req, res) => {
+  try {
+    const userId = req.userId; 
+    console.log('User ID:', userId); 
+    res.status(200).json({ message: 'Product comment handled' });
+  } catch (error) {
+    console.error('Error handling Product_comment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 
 module.exports = {
+  Product_comment,
   Product_home,
   Product_phimbo,
   Product_phimle,
@@ -127,5 +138,5 @@ module.exports = {
   Product_danhmucphimchinhkich,
   Product_danhmucphimsapchieu,
   Product_danhmucphimle,
-  Product_danhmucphimshows
+  Product_danhmucphimshows,
 };
