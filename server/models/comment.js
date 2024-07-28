@@ -10,12 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Comment.belongsTo(models.User, {
+        foreignKey: 'user_id', // Khóa ngoại trong bảng Comment
+        targetKey: 'id',       // Khóa chính trong bảng User
+        as: 'users'
+      });
+      
     }
   }
   Comment.init({
     titlefilm: DataTypes.STRING,
-    username: DataTypes.STRING,
+    comment: DataTypes.STRING,
     user_id: DataTypes.INTEGER
   }, {
     sequelize,

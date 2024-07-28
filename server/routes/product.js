@@ -37,6 +37,10 @@ router.get('/product-phimhocduong', productController.Product_danhmucphimhocduon
 router.get('/product-phimvothuat', productController.Product_danhmucphimvothuat);
 router.get('/product-phimchinhkich', productController.Product_danhmucphimchinhkich);
 
+//quocgia
+router.get('/product-trungquoc', productController.Product_quocgia_trungquoc);
+// router.get('/product-thailan', productController.Product_quocgia_thailan);
+
 
 
 router.get('/:detailfilm', productController.Product_Detailphim);

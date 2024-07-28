@@ -1,8 +1,10 @@
-const { Product , Linkfilm} = require('../models');
-const { Op, where } = require('sequelize');
+const { Product , Linkfilm,Comment,User} = require('../models');
+const { Op, where ,fn,col,literal } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const cache = require('memory-cache');
+const { body, validationResult } = require('express-validator');
+const CheckNull = require ('../middleware/Validate/Checknull')
 
 // Hàm ghi log vào file
 const logToFile = (filename, data) => {
@@ -154,20 +156,44 @@ const getProductByCategory = async (categoryId) => {
 };
 const detailfilm = async (titlefilm) => {
   try {
+    // Lấy thông tin chi tiết của phim và các link film tương ứng
     const datafilm = await Product.findOne({
       where: {
         title: titlefilm
       },
       include: [{
         model: Linkfilm,
-        as: 'linkfilms', 
-        attributes: [ 'episode',]
+        as: 'linkfilms',
+        attributes: ['episode']
       }]
     });
-    return datafilm;
+
+  
+    const comments = await Comment.findAll({
+      where: {
+        titlefilm: titlefilm
+      },
+      order: [['id', 'DESC']],
+      // attributes: {
+      //   include: [[literal(`(SELECT COUNT(*) FROM Comments WHERE titlefilm = '${titlefilm}')`), 'totalCount']]
+      // },
+      include: [{
+        model: User,
+        as: 'users',
+        attributes: ['username']
+      }],
+    
+    });
+    // const totalCount = await Comment.count({
+    //   where: {
+    //     titlefilm: titlefilm
+    //   }
+    // });
+    
+    return { datafilm, comments }; 
   } catch (error) {
     console.error('Error while fetching film detail:', error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -213,9 +239,65 @@ const danhmucphim = async (category_id, filters = {}) => {
   }
 };
 
+const quocgia = async (quocgia,filters = {}) =>{
+  try {
+    const { orderBy, category, country, typeId, year } = filters;
+    const wherefilters = {};
 
-module.exports = {
-  danhmucphim,
+    // Build dynamic conditions based on filters
+    if (category) {
+      wherefilters.theloai = { [Op.like]: `%${category}%` };
+    }
+    if (country) {
+      wherefilters.quocgia = { [Op.like]: `%${country}%` };
+    }
+    if (typeId) {
+      wherefilters.typeId = typeId;
+    }
+    if (year) {
+      wherefilters.namphathanh = year;
+    }
+
+    let orderClause = [];
+    if (orderBy == "createdAt") {
+      orderClause = [['createdAt', 'DESC']];
+    } else if (orderBy == "views") {
+      orderClause = [['views', 'DESC']];
+    } else if (orderBy == "year") {
+      orderClause = [['year', 'ASC']];
+    }
+    const data = Product.findAll({
+      wherefilters,
+      where: {
+        quocgia:{ [Op.like]: `%${quocgia}%` },
+        // orderBy: [["id","DESC"]],
+      }
+    })  
+    return data;
+  } catch (error) {
+  
+      throw(error)
+  }
+  
+}
+
+
+const post_comment = async (userId, titlefilm, contentcomment) => {
+  // Kiểm tra dữ liệu đầu vào
+  if (userId == null || titlefilm == null || contentcomment == null) {
+    throw new Error('Missing required fields: userId, titlefilm, or contentcomment');
+  }
+
+  try {
+    await Comment.create({
+      titlefilm: titlefilm,
+      comment: contentcomment,
+      user_id: userId,
+    });
+    return { success: true };
+  } catch (error) {
+    throw error;
+  }
 };
 
 
@@ -223,4 +305,4 @@ module.exports = {
 
 
 
-module.exports = { home, getProductByCategory,detailfilm,danhmucphim};
+module.exports = { home, getProductByCategory,detailfilm,danhmucphim,quocgia,post_comment};

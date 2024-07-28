@@ -47,12 +47,11 @@ const Product_Detailphim = async (req, res) => {
   }
 };
 
-
 //handle page danh muc phim
 const handledanhmucphim = async (req, res, categoryId) => {
   try {
     const filters = req.query;
-    console.log("Received filters:", filters);
+   
     const data = await Productservices.danhmucphim(categoryId, filters);
     res.status(200).json(data);
   } catch (error) {
@@ -62,8 +61,23 @@ const handledanhmucphim = async (req, res, categoryId) => {
 };
 
 
+//product quốc gia
 
+const Product_quocgia_trungquoc = async(req, res, next) => { handlequocgia(req, res, 'Trung Quốc', next) }
 
+const handlequocgia = async (req, res, country, next) => {
+  try {
+      const filters = req.query;
+      const data = await Productservices.quocgia(country, filters);
+    
+      return res.status(200).json(data);
+  } catch (error) {
+      console.log(error, "Lỗi khi lấy thông tin quốc gia phim");
+      next(error); 
+  }
+};
+
+//product danh mục
 const Product_danhmucphimbo = async (req,res) =>handledanhmucphim(req,res,24)
 const Product_danhmucphimle = async (req,res) =>handledanhmucphim(req,res,25)
 const Product_danhmucphimsapchieu = async (req,res) =>handledanhmucphim(req,res,27)
@@ -92,16 +106,25 @@ const Product_danhmucphimhocduong = async (req, res) => handledanhmucphim(req, r
 const Product_danhmucphimvothuat = async (req, res) => handledanhmucphim(req, res, 18);
 const Product_danhmucphimchinhkich = async (req, res) => handledanhmucphim(req, res, 21);
 
-const Product_comment = async (req, res) => {
+const Product_comment = async (req, res, next) => {
   try {
-    const userId = req.userId; 
-    console.log('User ID:', userId); 
-    res.status(200).json({ message: 'Product comment handled' });
+    const userId = req.userId;
+    const { titlefilm, contentcomment } = req.body;
+   
+    const data = await Productservices.post_comment(userId, titlefilm, contentcomment);
+    if (data.success) {
+      res.status(200).json({ message: 'Create success token' });
+    } else {
+      
+    next(error);
+
+      throw new Error('Failed to create comment');
+    }
   } catch (error) {
-    console.error('Error handling Product_comment:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 }
+
 
 
 module.exports = {
@@ -139,4 +162,5 @@ module.exports = {
   Product_danhmucphimsapchieu,
   Product_danhmucphimle,
   Product_danhmucphimshows,
+  Product_quocgia_trungquoc
 };

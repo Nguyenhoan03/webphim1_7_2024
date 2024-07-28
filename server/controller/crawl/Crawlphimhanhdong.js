@@ -7,7 +7,7 @@ sequelize.sync()
   .catch(err => console.error('Could not sync database', err));
 
 const crawlphimhanhdong = async (req, res) => {
-  const url = 'https://ophim17.cc/the-loai/hoc-duong'; // Replace with the actual URL you want to scrape
+  const url = 'https://ophim17.cc/the-loai/phim-18?page=5'; // Replace with the actual URL you want to scrape
 
   try {
     const response = await axios.get(url);
@@ -80,7 +80,7 @@ const crawlphimhanhdong = async (req, res) => {
           quocgia: dataFilm['Quốc Gia'],
           views: 0,
           likes: 0,
-          category_id: 15,
+          category_id: 8,
         };
       } catch (error) {
         console.error(`Error fetching movie URL: ${error.message}`);

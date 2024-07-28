@@ -3,7 +3,7 @@ const Login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const data = await Userservice.Servicelogin(email, password);
-        console.log(data, "data userlogin")
+       
         if (data.success) {
             res.status(200).json({ token: data.token , name: data.name});
         } else {

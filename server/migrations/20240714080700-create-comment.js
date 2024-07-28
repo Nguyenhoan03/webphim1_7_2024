@@ -12,7 +12,7 @@ module.exports = {
       titlefilm: {
         type: Sequelize.STRING
       },
-      username: {
+      comment: {
         type: Sequelize.STRING
       },
       user_id: {
