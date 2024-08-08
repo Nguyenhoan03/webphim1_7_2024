@@ -37,9 +37,42 @@ router.get('/product-phimhocduong', productController.Product_danhmucphimhocduon
 router.get('/product-phimvothuat', productController.Product_danhmucphimvothuat);
 router.get('/product-phimchinhkich', productController.Product_danhmucphimchinhkich);
 
-//quocgia
-router.get('/product-trungquoc', productController.Product_quocgia_trungquoc);
-// router.get('/product-thailan', productController.Product_quocgia_thailan);
+// Quốc gia
+router.get('/product-ando', productController.Product_quocgia_ando);
+router.get('/product-anh', productController.Product_quocgia_anh);
+router.get('/product-phap', productController.Product_quocgia_phap);
+router.get('/product-nhat-ban', productController.Product_quocgia_nhatban);
+router.get('/product-han-quoc', productController.Product_quocgia_hanquoc);
+router.get('/product-thai-lan', productController.Product_quocgia_thailan);
+router.get('/product-au-my', productController.Product_quocgia_aumy);
+router.get('/product-dai-loan', productController.Product_quocgia_dailoan);
+router.get('/product-hong-kong', productController.Product_quocgia_hongkong);
+router.get('/product-duc', productController.Product_quocgia_duc);
+router.get('/product-canada', productController.Product_quocgia_canada);
+router.get('/product-tay-ban-nha', productController.Product_quocgia_taybannha);
+router.get('/product-tho-nhi-ky', productController.Product_quocgia_thonhiky);
+router.get('/product-ha-lan', productController.Product_quocgia_halan);
+router.get('/product-indonesia', productController.Product_quocgia_indonesia);
+router.get('/product-nga', productController.Product_quocgia_nga);
+router.get('/product-mexico', productController.Product_quocgia_mexico);
+router.get('/product-ba-lan', productController.Product_quocgia_balan);
+router.get('/product-uc', productController.Product_quocgia_uc);
+router.get('/product-thuy-dien', productController.Product_quocgia_thuydien);
+router.get('/product-malaysia', productController.Product_quocgia_malaysia);
+router.get('/product-brazil', productController.Product_quocgia_brazil);
+router.get('/product-philippines', productController.Product_quocgia_philippines);
+router.get('/product-bo-dao-nha', productController.Product_quocgia_bodaonha);
+router.get('/product-y', productController.Product_quocgia_y);
+router.get('/product-dan-mach', productController.Product_quocgia_danmach);
+router.get('/product-uae', productController.Product_quocgia_uae);
+router.get('/product-na-uy', productController.Product_quocgia_nauy);
+router.get('/product-thuy-si', productController.Product_quocgia_thuysi);
+router.get('/product-chau-phi', productController.Product_quocgia_chauphi);
+router.get('/product-nam-phi', productController.Product_quocgia_namphi);
+router.get('/product-ukraina', productController.Product_quocgia_ukraina);
+router.get('/product-a-rap-xe-ut', productController.Product_quocgia_arapxeut);
+router.get('/product-trung-quoc', productController.Product_quocgia_trungquoc);
+
 
 
 

@@ -32,7 +32,6 @@ const Product_phimsapchieu = (req, res) => getProductByCategory(req, res, 27);
 const Product_Detailphim = async (req, res) => {
   try {
     const titlefilm = req.params.detailfilm;
-   
     const data = await Productservices.detailfilm(titlefilm);
     
     if (data) {
@@ -40,18 +39,15 @@ const Product_Detailphim = async (req, res) => {
     } else {
       res.status(404).json({ message: 'Không tìm thấy thông tin phim' });
     }
-    
   } catch (error) {
     console.error('Error while fetching film detail:', error);
     res.status(500).json({ message: 'Lỗi khi lấy thông tin phim' });
   }
 };
-
 //handle page danh muc phim
 const handledanhmucphim = async (req, res, categoryId) => {
   try {
     const filters = req.query;
-   
     const data = await Productservices.danhmucphim(categoryId, filters);
     res.status(200).json(data);
   } catch (error) {
@@ -60,22 +56,6 @@ const handledanhmucphim = async (req, res, categoryId) => {
   }
 };
 
-
-//product quốc gia
-
-const Product_quocgia_trungquoc = async(req, res, next) => { handlequocgia(req, res, 'Trung Quốc', next) }
-
-const handlequocgia = async (req, res, country, next) => {
-  try {
-      const filters = req.query;
-      const data = await Productservices.quocgia(country, filters);
-    
-      return res.status(200).json(data);
-  } catch (error) {
-      console.log(error, "Lỗi khi lấy thông tin quốc gia phim");
-      next(error); 
-  }
-};
 
 //product danh mục
 const Product_danhmucphimbo = async (req,res) =>handledanhmucphim(req,res,24)
@@ -125,6 +105,156 @@ const Product_comment = async (req, res, next) => {
   }
 }
 
+//product quốc gia
+
+const Product_quocgia_anh = async (req, res, next) => {
+  handlequocgia(req, res, 'Anh', next);
+};
+
+const Product_quocgia_phap = async (req, res, next) => {
+  handlequocgia(req, res, 'Pháp', next);
+};
+
+const Product_quocgia_nhatban = async (req, res, next) => {
+  handlequocgia(req, res, 'Nhật Bản', next);
+};
+
+const Product_quocgia_hanquoc = async (req, res, next) => {
+  handlequocgia(req, res, 'Hàn Quốc', next);
+};
+
+const Product_quocgia_thailan = async (req, res, next) => {
+  handlequocgia(req, res, 'Thái Lan', next);
+};
+
+const Product_quocgia_aumy = async (req, res, next) => {
+  handlequocgia(req, res, 'Âu Mỹ', next);
+};
+
+const Product_quocgia_dailoan = async (req, res, next) => {
+  handlequocgia(req, res, 'Đài Loan', next);
+};
+
+const Product_quocgia_hongkong = async (req, res, next) => {
+  handlequocgia(req, res, 'Hồng Kông', next);
+};
+
+const Product_quocgia_ando = async (req, res, next) => {
+  handlequocgia(req, res, 'Ấn Độ', next);
+};
+
+const Product_quocgia_duc = async (req, res, next) => {
+  handlequocgia(req, res, 'Đức', next);
+};
+
+const Product_quocgia_canada = async (req, res, next) => {
+  handlequocgia(req, res, 'Canada', next);
+};
+
+const Product_quocgia_taybannha = async (req, res, next) => {
+  handlequocgia(req, res, 'Tây Ban Nha', next);
+};
+
+const Product_quocgia_thonhiky = async (req, res, next) => {
+  handlequocgia(req, res, 'Thổ Nhĩ Kỳ', next);
+};
+
+const Product_quocgia_halan = async (req, res, next) => {
+  handlequocgia(req, res, 'Hà Lan', next);
+};
+
+const Product_quocgia_indonesia = async (req, res, next) => {
+  handlequocgia(req, res, 'Indonesia', next);
+};
+
+const Product_quocgia_nga = async (req, res, next) => {
+  handlequocgia(req, res, 'Nga', next);
+};
+
+const Product_quocgia_mexico = async (req, res, next) => {
+  handlequocgia(req, res, 'Mexico', next);
+};
+
+const Product_quocgia_balan = async (req, res, next) => {
+  handlequocgia(req, res, 'Ba Lan', next);
+};
+
+const Product_quocgia_uc = async (req, res, next) => {
+  handlequocgia(req, res, 'Úc', next);
+};
+
+const Product_quocgia_thuydien = async (req, res, next) => {
+  handlequocgia(req, res, 'Thụy Điển', next);
+};
+
+const Product_quocgia_malaysia = async (req, res, next) => {
+  handlequocgia(req, res, 'Malaysia', next);
+};
+
+const Product_quocgia_brazil = async (req, res, next) => {
+  handlequocgia(req, res, 'Brazil', next);
+};
+
+const Product_quocgia_philippines = async (req, res, next) => {
+  handlequocgia(req, res, 'Philippines', next);
+};
+
+const Product_quocgia_bodaonha = async (req, res, next) => {
+  handlequocgia(req, res, 'Bồ Đào Nha', next);
+};
+
+const Product_quocgia_y = async (req, res, next) => {
+  handlequocgia(req, res, 'Ý', next);
+};
+
+const Product_quocgia_danmach = async (req, res, next) => {
+  handlequocgia(req, res, 'Đan Mạch', next);
+};
+
+const Product_quocgia_uae = async (req, res, next) => {
+  handlequocgia(req, res, 'UAE', next);
+};
+
+const Product_quocgia_nauy = async (req, res, next) => {
+  handlequocgia(req, res, 'Na Uy', next);
+};
+
+const Product_quocgia_thuysi = async (req, res, next) => {
+  handlequocgia(req, res, 'Thụy Sĩ', next);
+};
+
+const Product_quocgia_chauphi = async (req, res, next) => {
+  handlequocgia(req, res, 'Châu Phi', next);
+};
+
+const Product_quocgia_namphi = async (req, res, next) => {
+  handlequocgia(req, res, 'Nam Phi', next);
+};
+
+const Product_quocgia_ukraina = async (req, res, next) => {
+  handlequocgia(req, res, 'Ukraina', next);
+};
+
+const Product_quocgia_arapxeut = async (req, res, next) => {
+  handlequocgia(req, res, 'Ả Rập Xê Út', next);
+};
+const Product_quocgia_trungquoc = async (req, res, next) => {
+  handlequocgia(req, res, 'Trung Quốc', next);
+};
+
+
+const handlequocgia = async (req, res, country, next) => {
+  try {
+      const filters = req.query;
+      console.log(filters,"filllllllterrrr")
+      const data = await Productservices.quocgia(country, filters);
+      return res.status(200).json(data);
+  } catch (error) {
+      console.log(error, "Lỗi khi lấy thông tin quốc gia phim");
+      next(error); 
+  }
+};
+
 
 
 module.exports = {
@@ -162,5 +292,43 @@ module.exports = {
   Product_danhmucphimsapchieu,
   Product_danhmucphimle,
   Product_danhmucphimshows,
-  Product_quocgia_trungquoc
+  Product_quocgia_ando,
+ 
+  //quoc gia
+  Product_quocgia_phap,
+  Product_quocgia_anh,
+  Product_quocgia_nhatban,
+  Product_quocgia_hanquoc,
+  Product_quocgia_thailan,
+  Product_quocgia_aumy,
+  Product_quocgia_dailoan,
+  Product_quocgia_hongkong,
+  Product_quocgia_ando,
+  Product_quocgia_duc,
+  Product_quocgia_canada,
+  Product_quocgia_taybannha,
+  Product_quocgia_thonhiky,
+  Product_quocgia_halan,
+  Product_quocgia_indonesia,
+  Product_quocgia_nga,
+  Product_quocgia_mexico,
+  Product_quocgia_balan,
+  Product_quocgia_uc,
+  Product_quocgia_thuydien,
+  Product_quocgia_malaysia,
+  Product_quocgia_brazil,
+  Product_quocgia_philippines,
+  Product_quocgia_bodaonha,
+  Product_quocgia_y,
+  Product_quocgia_danmach,
+  Product_quocgia_uae,
+  Product_quocgia_nauy,
+  Product_quocgia_thuysi,
+  Product_quocgia_chauphi,
+  Product_quocgia_namphi,
+  Product_quocgia_ukraina,
+  Product_quocgia_arapxeut,
+  Product_quocgia_trungquoc,
+  // Product_quocgia_quocgiakhac
+
 };

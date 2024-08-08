@@ -14,113 +14,73 @@ const logToFile = (filename, data) => {
 
 const home = async () => {
   try {
-    // cache.clear();
     const cacheKey = 'home_data';
-    let data = cache.get(cacheKey); 
+    let data = cache.get(cacheKey);
 
     if (data) {
       return data;
     }
-    const phimhotPromise = Product.findAll({
-      order: [['views', 'DESC']],
-      limit: 30,
-      attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
-    });
 
-    const phimbomoicapnhatPromise = Product.findAll({
-      where: {
-        sotap: { [Op.gt]: 15 },
-        thoiluong: { [Op.gt]: 25 }
-      },
-      attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
+    const commonAttributes = ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'];
+
+    const findFilms = (options) => Product.findAll({
+      ...options,
+      attributes: options.attributes || commonAttributes,
       group: ['title'],
-      order: [['sotap', 'DESC'], ['thoiluong', 'DESC']],
-      limit: 18,
+      order: options.order || [['id', 'DESC']],
+      limit: options.limit || 18,
     });
 
-    const phimlemoicapnhatPromise = Product.findAll({
-      where: { sotap: { [Op.gt]: 1 } },
-      limit: 18,
-      group: ['title'],
-      order: [['id', 'DESC']],
-      attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
-    });
-
-    const phimdahoanthanhPromise = Product.findAll({
-      where: { trangthai: { [Op.like]: '%Hoàn Tất%' } },
-      limit: 18,
-      group: ['title'],
-      order: [['id', 'DESC']],
-      attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
-    });
-
-    const phimhanhdongPromise = Product.findAll({
-      where: { theloai: { [Op.like]: '%Hành Động%' } },
-      limit: 5,
-      group: ['title'],
-      order: [['id', 'DESC']],
-      attributes: ['hinhanh', 'title', 'namphathanh'],
-    });
-
-    const phimtrendingPromise = Product.findAll({
-      limit: 8,
-      group: ['title'],
-      order: [['likes', 'DESC']],
-      attributes: ['title', 'likes'],
-    });
-
-    const phimhoathinhPromise = Product.findAll({
-      where: { category_id: 23 },
-      limit: 13,
-      group: ['title'],
-      order: [['id', 'DESC']],
-      attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
-    });
-
-    const phimvientuongPromise = Product.findAll({
-      where: { category_id: 4 },
-      limit: 15,
-      group: ['title'],
-      order: [['id', 'DESC']],
-      attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
-    });
-
-    const phimsapchieuPromise = Product.findAll({
-      where: { category_id: 27 },
-      limit: 7,
-      group: ['title'],
-      order: [['id', 'DESC']],
-      attributes: ['hinhanh', 'title', 'namphathanh'],
-    });
-
-    const findFilmsByCategory = (categoryId) => {
-      return Product.findAll({
-        where: { category_id: categoryId },
-        limit: 10,
-        group: ['title'],
-        order: [['id', 'DESC']],
-        attributes: ['trangthai', 'ngonngu', 'hinhanh', 'title', 'views', 'sotap'],
-      });
-    };
-
-    const [phimCategory9, phimCategory10] = await Promise.all([
-      findFilmsByCategory(9),
-      findFilmsByCategory(10)
-    ]);
-
-    const phimtamlytimcamPromise = [...phimCategory9, ...phimCategory10];
+    const promises = [
+      findFilms({
+        order: [['views', 'DESC']],
+        limit: 30,
+      }),
+      findFilms({
+        where: { sotap: { [Op.gt]: 15 }, thoiluong: { [Op.gt]: 25 } },
+        order: [['sotap', 'DESC'], ['thoiluong', 'DESC']],
+      }),
+      findFilms({
+        where: { sotap: { [Op.gt]: 1 } },
+      }),
+      findFilms({
+        where: { trangthai: { [Op.like]: '%Hoàn Tất%' } },
+      }),
+      findFilms({
+        where: { theloai: { [Op.like]: '%Hành Động%' } },
+        limit: 5,
+        attributes: ['hinhanh', 'title', 'namphathanh'],
+      }),
+      findFilms({
+        attributes: ['title', 'likes'],
+        limit: 8,
+        order: [['likes', 'DESC']],
+      }),
+      findFilms({
+        where: { category_id: 23 },
+        limit: 13,
+      }),
+      findFilms({
+        where: { category_id: 4 },
+        limit: 15,
+      }),
+      findFilms({
+        where: { category_id: 27 },
+        limit: 7,
+        attributes: ['hinhanh', 'title', 'namphathanh'],
+      }),
+      findFilms({ where: { category_id: 9 }, limit: 10 }),
+      findFilms({ where: { category_id: 10 }, limit: 10 }),
+    ];
 
     const [
       phimhot, phimbomoicapnhat, phimlemoicapnhat,
       phimdahoanthanh, phimhanhdong, phimtrending,
-      phimhoathinh, phimtamlytimcam, phimvientuong,
-      phimsapchieu
-    ] = await Promise.all([
-      phimhotPromise, phimbomoicapnhatPromise, phimlemoicapnhatPromise,
-      phimdahoanthanhPromise, phimhanhdongPromise, phimtrendingPromise,
-      phimhoathinhPromise, phimtamlytimcamPromise, phimvientuongPromise,
-      phimsapchieuPromise
-    ]);
+      phimhoathinh, phimvientuong, phimsapchieu,
+      phimCategory9, phimCategory10
+    ] = await Promise.all(promises);
+
+    const phimtamlytimcam = [...phimCategory9, ...phimCategory10];
 
     data = {
       phimhot, phimbomoicapnhat, phimlemoicapnhat,
@@ -129,16 +89,17 @@ const home = async () => {
       phimsapchieu
     };
 
-    cache.put(cacheKey, data, 3600 * 1000); 
+     cache.put(cacheKey, data, 3600 * 1000); 
 
     return data;
 
   } catch (error) {
     console.error('Error in phimhot service:', error);
-    logToFile('log.txt', 'Error in phimhot service: ' + error.toString());
-    throw error; 
+    logToFile('log.txt', `Error in phimhot service: ${error.toString()}`);
+    throw error;
   }
 };
+
 //file services
 const getProductByCategory = async (categoryId) => {
   try {
@@ -239,7 +200,8 @@ const danhmucphim = async (category_id, filters = {}) => {
   }
 };
 
-const quocgia = async (quocgia,filters = {}) =>{
+const quocgia = async (quocgia, filters = {}) => {
+  console.log("first_quocgia service", quocgia);
   try {
     const { orderBy, category, country, typeId, year } = filters;
     const wherefilters = {};
@@ -259,27 +221,28 @@ const quocgia = async (quocgia,filters = {}) =>{
     }
 
     let orderClause = [];
-    if (orderBy == "createdAt") {
+    if (orderBy === "createdAt") {
       orderClause = [['createdAt', 'DESC']];
-    } else if (orderBy == "views") {
+    } else if (orderBy === "views") {
       orderClause = [['views', 'DESC']];
-    } else if (orderBy == "year") {
-      orderClause = [['year', 'ASC']];
+    } else if (orderBy === "year") {
+      orderClause = [['namphathanh', 'ASC']];
     }
-    const data = Product.findAll({
-      wherefilters,
+
+    const data = await Product.findAll({
       where: {
-        quocgia:{ [Op.like]: `%${quocgia}%` },
-        // orderBy: [["id","DESC"]],
-      }
-    })  
+        quocgia: { [Op.like]: `%${quocgia}%` },
+        ...wherefilters,
+      },
+      order: orderClause,  // Add the order clause if necessary
+    });
+
     return data;
   } catch (error) {
-  
-      throw(error)
+    throw error;
   }
-  
-}
+};
+
 
 
 const post_comment = async (userId, titlefilm, contentcomment) => {
