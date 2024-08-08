@@ -1,0 +1,5 @@
+
+sử lý validate form
+sử lý login jwt cho phần bình luận( còn phần tạo token mới khi hết hạn)
+bình luận (reply bình luận)
+đánh giá sao

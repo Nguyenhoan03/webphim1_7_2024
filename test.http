@@ -1,0 +1,29 @@
+### Get phim bộ products
+# GET http://localhost:5000/product/product-phimbo
+# Accept: application/json
+
+###
+
+### Create a new product
+
+
+# POST http://localhost:5000/dang-ky
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNzIxNDEwNDExLCJleHAiOjE3MjE0MTA0NDF9.iAWwl82HB-pQDCpj7Cy8ZNNZOnaccG_cutfFqqY9uEY
+
+# {
+ 
+#   "password": "hp1"
+# }
+
+# POST http://localhost:5000/product/comment
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNzIxNjYyNzMyLCJleHAiOjE3MjE2NjQ1MzJ9.LHLdB6YiDCAbWI6i-AFGblz_s2trwy6aGdFJuKOlxos
+
+# {
+ 
+
+# }
+
+GET http://localhost:5000/product/product-ando
+Accept: application/json
